@@ -21,10 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('reg',views.register),
     path('log',views.login_page),
-    # re_path(r'^tasks$', views.taskapi), 
-    
-    # # Route for operations on specific tasks, e.g., update or delete
-    # re_path(r'^tasks/([0-9]+)$', views.taskapi),  
+      
     path('tasks', views.taskapi),          # For listing and creating tasks
     path('tasks/<int:id>', views.taskapi),
 

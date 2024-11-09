@@ -40,48 +40,6 @@ def login_page(request):
         return Response({"status": 0, "values":user_data, "message": "Login failed"})
 
 
-@api_view(['GET', 'POST'])
-def task_page(request):
-    if request.method == 'GET':
-        tasks = Task.objects.all()  # Get all tasks
-        serializer = TaskSerializer(tasks, many=True)
-        return Response({"status": 1, "tasks": serializer.data})
-
-    elif request.method == 'POST':
-        serializer = TaskSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()  # Save task without user reference
-            return Response({"status": 1, "values": serializer.data})
-        return Response({"status": 0, "message": "Task creation failed", "errors": serializer.errors})
-
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def task_detail(request, pk):
-    try:
-        task = Task.objects.get(pk=pk)
-        print("pk",pk)
-
-    except Task.DoesNotExist:
-        return Response({"status": 0, "message": "Task not found"}, status=404)
-
-    if request.method == 'GET':
-        serializer = TaskSerializer(task)
-        print(task)
-        print(serializer.data)
-        return Response({"status": 1, "task": serializer.data})
-
-    elif request.method == 'PUT':
-        print("put method")
-        serializer = TaskSerializer(task, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": 1, "values": serializer.data})
-        return Response({"status": 0, "message": "Task update failed", "errors": serializer.errors})
-
-    elif request.method == 'DELETE':
-        task.delete()
-        return Response({"status": 1, "message": "Task deleted successfully"})
-
 
 
 
